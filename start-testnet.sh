@@ -25,6 +25,8 @@ home_dir="$CHAINDIR/$CHAINID"
 docker-compose down
 rm -r $CHAINDIR
 
+# ---------------------------------- Build & Start validators ----------------------------------
+
 n0name="gravity0"
 n1name="gravity1"
 n2name="gravity2"
@@ -125,27 +127,6 @@ cp $n0cfgDir/genesis.json $n1cfgDir/genesis.json
 cp $n0cfgDir/genesis.json $n2cfgDir/genesis.json
 cp $n0cfgDir/genesis.json $n3cfgDir/genesis.json
 
-echo "Generating ethereum keys"
-$gravity $home0 eth_keys add --output=json --dry-run=true | jq . >> $n0dir/eth_key.json
-$gravity $home1 eth_keys add --output=json --dry-run=true | jq . >> $n1dir/eth_key.json
-$gravity $home2 eth_keys add --output=json --dry-run=true | jq . >> $n2dir/eth_key.json
-$gravity $home3 eth_keys add --output=json --dry-run=true | jq . >> $n3dir/eth_key.json
-
-echo "Copying ethereum genesis file"
-cp tests/assets/ETHGenesis.json $home_dir
-
-echo "Adding initial ethereum value"
-jq ".alloc |= . + {$(jq .address $n0dir/eth_key.json) : {\"balance\": \"0x1337000000000000000000\"}}" $home_dir/ETHGenesis.json | sponge $home_dir/ETHGenesis.json
-jq ".alloc |= . + {$(jq .address $n1dir/eth_key.json) : {\"balance\": \"0x1337000000000000000000\"}}" $home_dir/ETHGenesis.json | sponge $home_dir/ETHGenesis.json
-jq ".alloc |= . + {$(jq .address $n2dir/eth_key.json) : {\"balance\": \"0x1337000000000000000000\"}}" $home_dir/ETHGenesis.json | sponge $home_dir/ETHGenesis.json
-jq ".alloc |= . + {$(jq .address $n3dir/eth_key.json) : {\"balance\": \"0x1337000000000000000000\"}}" $home_dir/ETHGenesis.json | sponge $home_dir/ETHGenesis.json
-
-echo "Creating gentxs"
-$gravity $home0 gentx --ip $n0name val 100000000000stake $(jq -r .address $n0dir/eth_key.json) $(jq -r .address $n0dir/orchestrator_key.json) $kbt $cid &>/dev/null
-$gravity $home1 gentx --ip $n1name val 100000000000stake $(jq -r .address $n1dir/eth_key.json) $(jq -r .address $n1dir/orchestrator_key.json) $kbt $cid &>/dev/null
-$gravity $home2 gentx --ip $n2name val 100000000000stake $(jq -r .address $n2dir/eth_key.json) $(jq -r .address $n2dir/orchestrator_key.json) $kbt $cid &>/dev/null
-$gravity $home3 gentx --ip $n3name val 100000000000stake $(jq -r .address $n3dir/eth_key.json) $(jq -r .address $n3dir/orchestrator_key.json) $kbt $cid &>/dev/null
-
 echo "Collecting gentxs in $n0name"
 cp $n1cfgDir/gentx/*.json $n0cfgDir/gentx/
 cp $n2cfgDir/gentx/*.json $n0cfgDir/gentx/
@@ -214,20 +195,52 @@ echo "$gravity --home home start --pruning=nothing > home.n2.log" >> $n2dir/star
 echo "$gravity --home home start --pruning=nothing > home.n3.log" >> $n3dir/startup.sh
 chmod +x $home_dir/*/startup.sh
 
-echo "Building ethereum and validator images"
-docker-compose build ethereum $n0name $n1name $n2name $n3name
+echo "Building validators images"
+docker-compose build $n0name $n1name $n2name $n3name
 
-echo "Starting testnet"
-docker-compose up --no-start ethereum $n0name $n1name $n2name $n3name &>/dev/null
-docker-compose start ethereum $n0name $n1name $n2name $n3name &>/dev/null
+echo "Starting validators testnet"
+docker-compose up --no-start $n0name $n1name $n2name $n3name &>/dev/null
+docker-compose start $n0name $n1name $n2name $n3name &>/dev/null
 
 echo "Waiting for cosmos cluster to sync"
 sleep 10
+
+# ---------------------------------- Build & Start Ethereum (+deploy contact) ----------------------------------
+
+echo "Generating ethereum keys"
+$gravity $home0 eth_keys add --output=json --dry-run=true | jq . >> $n0dir/eth_key.json
+$gravity $home1 eth_keys add --output=json --dry-run=true | jq . >> $n1dir/eth_key.json
+$gravity $home2 eth_keys add --output=json --dry-run=true | jq . >> $n2dir/eth_key.json
+$gravity $home3 eth_keys add --output=json --dry-run=true | jq . >> $n3dir/eth_key.json
+
+echo "Copying ethereum genesis file"
+cp tests/assets/ETHGenesis.json $home_dir
+
+echo "Adding initial ethereum value"
+jq ".alloc |= . + {$(jq .address $n0dir/eth_key.json) : {\"balance\": \"0x1337000000000000000000\"}}" $home_dir/ETHGenesis.json | sponge $home_dir/ETHGenesis.json
+jq ".alloc |= . + {$(jq .address $n1dir/eth_key.json) : {\"balance\": \"0x1337000000000000000000\"}}" $home_dir/ETHGenesis.json | sponge $home_dir/ETHGenesis.json
+jq ".alloc |= . + {$(jq .address $n2dir/eth_key.json) : {\"balance\": \"0x1337000000000000000000\"}}" $home_dir/ETHGenesis.json | sponge $home_dir/ETHGenesis.json
+jq ".alloc |= . + {$(jq .address $n3dir/eth_key.json) : {\"balance\": \"0x1337000000000000000000\"}}" $home_dir/ETHGenesis.json | sponge $home_dir/ETHGenesis.json
+
+echo "Creating gentxs"
+$gravity $home0 gentx --ip $n0name val 100000000000stake $(jq -r .address $n0dir/eth_key.json) $(jq -r .address $n0dir/orchestrator_key.json) $kbt $cid &>/dev/null
+$gravity $home1 gentx --ip $n1name val 100000000000stake $(jq -r .address $n1dir/eth_key.json) $(jq -r .address $n1dir/orchestrator_key.json) $kbt $cid &>/dev/null
+$gravity $home2 gentx --ip $n2name val 100000000000stake $(jq -r .address $n2dir/eth_key.json) $(jq -r .address $n2dir/orchestrator_key.json) $kbt $cid &>/dev/null
+$gravity $home3 gentx --ip $n3name val 100000000000stake $(jq -r .address $n3dir/eth_key.json) $(jq -r .address $n3dir/orchestrator_key.json) $kbt $cid &>/dev/null
+
+echo "Building ethereum images"
+docker-compose build ethereum
+
+echo "Starting ethereum"
+docker-compose up --no-start ethereum &>/dev/null
+docker-compose start ethereum &>/dev/null
 
 echo "Applying contracts"
 docker-compose build contract_deployer
 contractAddress=$(docker-compose up contract_deployer | grep "Gravity deployed at Address" | grep -Eow '0x[0-9a-fA-F]{40}')
 echo "Contract address: $contractAddress"
+
+# ---------------------------------- Build & Start Orchestrator  ----------------------------------
 
 echo "Gathering keys for orchestrators"
 echo VALIDATOR=$n0name >> $n0dir/orchestrator.env
