@@ -1,4 +1,4 @@
-# Installing Gravity on a Cosmos chain
+# Installing Gravity Bridge on a Cosmos chain
 
 ## Installing Gravity on an unstarted chain
 
