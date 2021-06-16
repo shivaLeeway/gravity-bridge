@@ -7,3 +7,4 @@ docker-compose up -d
 echo "sleeping 5 sec"
 sleep 5
 docker-compose exec gravity /bin/sh test_gravity.sh
+docker-compose down

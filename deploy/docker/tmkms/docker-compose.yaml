@@ -8,6 +8,7 @@ services:
     ports:
       - 26656:26656
       - 26657:26657
+      - 1317:1317
     volumes:
       - .:/root/~
     command: gravity start
