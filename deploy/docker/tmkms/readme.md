@@ -5,7 +5,7 @@ docker-compose build --force-rm --no-cache
 ```
 Run the bridge
 ```
-docker-compose up --force-rm --no-cache 
+docker-compose up
 ```
 Run test inside the bridge
 ```

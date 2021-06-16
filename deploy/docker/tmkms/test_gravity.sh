@@ -3,7 +3,10 @@ set -eu
 
 CHAIN_ID="gravity-testnet"
 KEYRING="--keyring-backend test"
-VALIDATOR_ADDRESS=$(gravity keys show validator1 -a $KEYRING)
+VALIDATOR_NAME=validator1
+VALIDATOR_ADDRESS=$(gravity keys show $VALIDATOR_NAME -a $KEYRING)
+
+gravity query staking delegations-to $(gravity keys show $VALIDATOR_NAME --bech val -a $KEYRING) --chain-id $CHAIN_ID
 
 gravity query bank balances $VALIDATOR_ADDRESS --chain-id $CHAIN_ID
 
@@ -23,9 +26,9 @@ echo "sleeping 5 sec"
 sleep 5
 
 # check that the recipient account did receive the tokens.
-echo -e "\n RECIPIENT balance:"
+echo -e "\n RECIPIENT $RECIPIENT balance:"
 gravity query bank balances $RECIPIENT --chain-id $CHAIN_ID
 
 # check that validator sent the tokens.
-echo -e "\n VALIDATOR1 balance:"
+echo -e "\n VALIDATOR1 $VALIDATOR_ADDRESS balance:"
 gravity query bank balances $VALIDATOR_ADDRESS --chain-id $CHAIN_ID
