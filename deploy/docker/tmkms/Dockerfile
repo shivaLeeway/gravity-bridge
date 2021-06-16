@@ -17,8 +17,6 @@ WORKDIR $GRAVITY_DIR/module
 # Build gravity artifact
 RUN make build-linux
 
-RUN ls build
-
 # ----------------- Module runner -----------------
 
 # Final image
@@ -33,16 +31,12 @@ ARG GRAVITY_DIR=/go/src/github.com/onomyprotocol/gravity-bridge/
 # Copy over binaries from the build-env
 COPY --from=build-env $GRAVITY_DIR/module/build/gravity /usr/bin/gravity
 
-ARG CHAIN_ID="gravity-testnet"
-ARG KEYRING="--keyring-backend test"
+WORKDIR ~/
 
-# init one validator
-RUN gravity init --chain-id=$CHAIN_ID validator1
-RUN gravity keys add validator1 $KEYRING
-RUN gravity add-genesis-account $(gravity keys show validator1 -a $KEYRING) 10000000nom
-RUN gravity eth_keys add --output=text --dry-run=true | grep address: | sed 's/address://g' > eth_key
-RUN gravity gentx validator1 10000000nom $(cat eth_key) $(gravity keys show validator1 -a $KEYRING) --chain-id $CHAIN_ID $KEYRING
-RUN gravity collect-gentxs
+RUN pwd
 
-## Run gravity
+COPY . .
+
+RUN /bin/sh bootstrap_gravity.sh
+
 CMD ["gravity"]
