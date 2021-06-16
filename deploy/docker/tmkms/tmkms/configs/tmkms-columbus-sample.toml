@@ -1,0 +1,26 @@
+# Tendermint KMS configuration file
+
+## Chain Configuration
+
+### Terra Columbus Network
+
+[[chain]]
+id = "columbus-3"
+key_format = { type = "bech32", account_key_prefix = "terra", consensus_key_prefix = "terravalconspub" }
+state_file = "/home/tmkms/state/columbus-3-consensus.json"
+
+## Signing Provider Configuration
+
+### Ledger Provider Configuration
+
+[[providers.ledgertm]]
+chain_ids = ["cosmoshub-1"]
+
+## Validator Configuration
+
+[[validator]]
+chain_id = "columbus-3"
+addr = "tcp://deadbeefdeadbeefdeadbeefdeadbeefdeadbeef@example1.example.com:26658"
+secret_key = "/home/tmkms/secrets/kms-identity.key"
+protocol_version = "legacy"
+reconnect = true

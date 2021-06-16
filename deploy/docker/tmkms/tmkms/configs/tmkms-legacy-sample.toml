@@ -1,0 +1,9 @@
+# Example KMS configuration file
+[[validator]]
+addr = "tcp://localhost:26656"    # addr to point to your gaiad (gaiad->gravity in our case) instance.
+chain_id = "gravity-testnet" #  chain-id to match your .gaia/config/config.toml (gaiad->gravity in our case) settings.
+reconnect = true # true is the default
+secret_key = "~/.tmkms/secret_connection.key"
+
+[[providers.ledgertm]]
+chain_ids = ["gravity-testnet"]

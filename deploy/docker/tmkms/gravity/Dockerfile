@@ -1,8 +1,8 @@
 # ----------------- Module builder -----------------
-FROM golang:1.16-alpine AS build-env
+FROM golang:1.16-alpine AS grativy-module-build-env
 
 # Set up dependencies
-ENV PACKAGES curl make git libc-dev bash gcc linux-headers eudev-dev python3 git
+ENV PACKAGES curl make git libc-dev bash gcc linux-headers eudev-dev python3
 
 RUN apk add --no-cache $PACKAGES
 
@@ -18,22 +18,20 @@ WORKDIR $GRAVITY_DIR/module
 RUN make build-linux
 
 # ----------------- Module runner -----------------
-
 # Final image
 FROM alpine:edge
 
 # Install ca-certificates
 RUN apk add --update ca-certificates
+
 WORKDIR /root
 
 ARG GRAVITY_DIR=/go/src/github.com/onomyprotocol/gravity-bridge/
 
 # Copy over binaries from the build-env
-COPY --from=build-env $GRAVITY_DIR/module/build/gravity /usr/bin/gravity
+COPY --from=grativy-module-build-env $GRAVITY_DIR/module/build/gravity /usr/bin/gravity
 
 WORKDIR ~/
-
-RUN pwd
 
 COPY . .
 

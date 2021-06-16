@@ -3,12 +3,17 @@ version: '3'
 services:
   gravity:
     build:
-      context: .
-      dockerfile: Dockerfile
+      context: ./gravity
+      dockerfile: ./Dockerfile
     ports:
       - 26656:26656
       - 26657:26657
       - 1317:1317
     volumes:
-      - .:/root/~
+      - ./gravity:/root/~
     command: gravity start
+
+  tmkms:
+    build:
+      context: ./tmkms
+      dockerfile: ./Dockerfile

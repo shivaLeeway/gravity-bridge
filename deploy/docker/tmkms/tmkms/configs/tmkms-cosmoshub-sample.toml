@@ -1,0 +1,27 @@
+# Tendermint KMS configuration file
+
+## Chain Configuration
+
+### Cosmos Hub Network
+
+[[chain]]
+id = "cosmoshub-3"
+key_format = { type = "bech32", account_key_prefix = "cosmospub", consensus_key_prefix = "cosmosvalconspub" }
+state_file = "/home/tmkms/state/cosmoshub-3-consensus.json"
+
+## Signing Provider Configuration
+
+### Ledger Provider Configuration
+
+[[providers.ledgertm]]
+chain_ids = ["cosmoshub-1"]
+
+## Validator Configuration
+
+[[validator]]
+chain_id = "cosmoshub-3"
+addr = "tcp://deadbeefdeadbeefdeadbeefdeadbeefdeadbeef@example1.example.com:26658"
+secret_key = "/home/tmkms/secrets/kms-identity.key"
+protocol_version = "legacy"
+reconnect = true
+
