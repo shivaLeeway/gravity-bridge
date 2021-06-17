@@ -9,11 +9,14 @@ services:
       - 26656:26656
       - 26657:26657
       - 1317:1317
+      - 61278:61278
     volumes:
+      #  volume for test script
       - ./gravity:/root/~
-    command: gravity start
+    command: tm-signer-harness run --tmhome="/root/.gravity" -addr tcp://0.0.0.0:61278 -accept-retries 1000000
 
   tmkms:
     build:
       context: ./tmkms
       dockerfile: ./Dockerfile
+    command: tmkms start -v

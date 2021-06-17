@@ -41,22 +41,22 @@ RUN curl https://sh.rustup.rs -sSf | sh -s -- -y && \
     cargo install cargo-audit
 
 # clone the repo
-# TODO cahnge to onomy
+# TODO change to onomy
 RUN git clone https://github.com/iqlusioninc/tmkms.git $TMKMS_DIR/tmkms
 
 # set working dir
 WORKDIR $TMKMS_DIR/tmkms
 
 # Build tmkms artifact
-RUN cargo build --features=ledger --release --bin tmkms
-
-RUN ls /home/developer/tmkms/target/release
+RUN cargo build --features=softsign --release --bin tmkms
 
 # ----------------- KMS runner -----------------
 
 FROM centos:7
 
 COPY --from=tmkms-build-env /home/developer/tmkms/target/release/tmkms /usr/local/bin
+
+WORKDIR /home/tmkms
 
 COPY . .
 

@@ -2,11 +2,11 @@
 id = "gravity-testnet"
 key_format = { type = "bech32", account_key_prefix = "cosmospub", consensus_key_prefix = "cosmosvalconspub" }
 [[validator]]
-addr = "tcp://0.0.0.0:61278"
+addr = "tcp://gravity:61278"
 chain_id = "gravity-testnet"
 reconnect = true # true is the default
-secret_key = "/root/.gravity/secret_connection.key"
+secret_key = "/home/tmkms/secrets/kms-identity.key"
 protocol_version = "legacy"
 [[providers.softsign]]
 chain_ids = ["gravity-testnet"]
-path = "/root/.gravity/signing.key"
+path = "/home/tmkms/secrets/signing.key"
