@@ -5,7 +5,7 @@ key_format = { type = "bech32", account_key_prefix = "cosmospub", consensus_key_
 addr = "tcp://gravity:61278"
 chain_id = "gravity-testnet"
 reconnect = true # true is the default
-secret_key = "/home/tmkms/secrets/kms-identity.key"
+secret_key = "/home/tmkms/secrets/secret_connection.key"
 protocol_version = "legacy"
 [[providers.softsign]]
 chain_ids = ["gravity-testnet"]

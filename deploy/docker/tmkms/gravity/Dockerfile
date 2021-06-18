@@ -61,4 +61,6 @@ RUN /bin/sh bootstrap_gravity.sh
 
 RUN /bin/sh generate_tmkms_files.sh
 
+RUN ls
+
 CMD ["gravity"]
