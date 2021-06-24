@@ -44,6 +44,12 @@ You can keep up with the latest development by watching our [public standups](ht
 
 - Trust in the integrity of the Gravity bridge is anchored on the Cosmos side. The signing of fraudulent validator set updates and transaction batches meant for the Ethereum contract is punished by slashing on the Cosmos chain. If you trust the Cosmos chain, you can trust the Gravity bridge operated by it, as long as it is operated within certain parameters.
 - It is mandatory for peg zone validators to maintain a trusted Ethereum node. This removes all trust and game theory implications that usually arise from independent relayers, once again dramatically simplifying the design.
+- [Architecture docs.](https://github.com/onomyprotocol/gravity-bridge/tree/main/docs/architecture)
+- [Design docs.](https://github.com/onomyprotocol/gravity-bridge/blob/main/docs/design/overview.md)
+
+<p align="center">
+  <img src="https://user-images.githubusercontent.com/6096171/123229727-3ceea380-d4df-11eb-818c-3c996d9199aa.png?raw=true"/>
+</p>
 
 ## Key design Components
 
