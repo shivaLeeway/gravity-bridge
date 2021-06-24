@@ -145,6 +145,9 @@ CONTRACT_ADDRESS=$(cat $GRAVITY_HOME/eth_contract_address)
 
 echo "Contract address: $CONTRACT_ADDRESS"
 
+echo "Terminating"
+sleep 10
+
 # return back to home
 cd $CURRENT_WORKING_DIR
 
