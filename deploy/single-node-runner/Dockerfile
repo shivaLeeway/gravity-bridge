@@ -13,7 +13,7 @@ RUN DEBIAN_FRONTEND="noninteractive" apt-get install --no-install-recommends -yq
 
 ARG GRAVITY_DIR=/go/src/github.com/onomyprotocol/gravity-bridge/
 # clone the repo
-RUN git clone -b v0.0.29  https://github.com/althea-net/cosmos-gravity-bridge.git $GRAVITY_DIR
+RUN git clone https://github.com/althea-net/cosmos-gravity-bridge.git $GRAVITY_DIR
 # ------------------ gravity module ------------------
 
 # install golang
@@ -45,7 +45,7 @@ RUN cargo build --target=x86_64-unknown-linux-musl --release  --all
 # copy binary to bin
 RUN ls target/x86_64-unknown-linux-musl
 RUN ls target/x86_64-unknown-linux-musl/release
-RUN cp target/x86_64-unknown-linux-musl/release/orchestrator /usr/bin/orchestrator
+RUN cp target/x86_64-unknown-linux-musl/release/gbt /usr/bin/gbt
 
 # ------------------ contract-deployer ------------------
 
