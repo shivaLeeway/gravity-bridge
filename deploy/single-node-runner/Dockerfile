@@ -13,7 +13,7 @@ RUN DEBIAN_FRONTEND="noninteractive" apt-get install --no-install-recommends -yq
 
 ARG GRAVITY_DIR=/go/src/github.com/onomyprotocol/gravity-bridge/
 # clone the repo
-RUN git clone https://github.com/onomyprotocol/gravity-bridge.git $GRAVITY_DIR
+COPY . $GRAVITY_DIR
 
 # ------------------ gravity module ------------------
 
@@ -61,6 +61,9 @@ RUN npm ci
 RUN chmod -R +x scripts
 RUN npm run typechain
 
+# go to root home
+WORKDIR /root/home
+
 # ------------------ ethereum go (geth) ------------------
 RUN add-apt-repository -y ppa:ethereum/ethereum
 RUN apt-get install --no-install-recommends -yq ethereum
@@ -69,10 +72,8 @@ RUN apt-get install --no-install-recommends -yq ethereum
 RUN apt-get install --no-install-recommends -yq jq \
                                                 moreutils
 
-# go to root home
-WORKDIR /root/home
-COPY assets assets
-COPY scripts scripts
+RUN cp -r $GRAVITY_DIR/deploy/single-node-runner/scripts scripts
+RUN cp -r $GRAVITY_DIR/deploy/single-node-runner/assets assets
 
 RUN sh scripts/init.sh
 CMD sh scripts/run.sh

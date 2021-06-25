@@ -2,9 +2,9 @@ version: '3'
 
 services:
   gravity:
-    build:
-      context: ./
-      dockerfile: ./Dockerfile
+    image: onomy/gravity-bridge-single-node-runner:v-5
+    restart: on-failure
+    container_name: gravity-bridge-single-node-runner
     ports:
       # gravity
       - 26656:26656
