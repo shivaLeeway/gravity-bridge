@@ -2,7 +2,7 @@ version: '3'
 
 services:
   gravity:
-    image: onomy/gravity-bridge-single-node-runner:v-5
+    image: onomy/gravity-bridge-single-node-runner:local
     restart: on-failure
     container_name: gravity-bridge-single-node-runner
     ports:

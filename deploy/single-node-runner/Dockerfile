@@ -13,8 +13,7 @@ RUN DEBIAN_FRONTEND="noninteractive" apt-get install --no-install-recommends -yq
 
 ARG GRAVITY_DIR=/go/src/github.com/onomyprotocol/gravity-bridge/
 # clone the repo
-COPY . $GRAVITY_DIR
-
+RUN git clone -b v0.0.29  https://github.com/althea-net/cosmos-gravity-bridge.git $GRAVITY_DIR
 # ------------------ gravity module ------------------
 
 # install golang
@@ -26,9 +25,9 @@ ENV PATH=$PATH:$GOPATH/bin
 
 # build gravity artifact
 WORKDIR $GRAVITY_DIR/module
-RUN make build-linux
+RUN make
 # copy binary to bin
-RUN cp $GRAVITY_DIR/module/build/gravity /usr/bin/gravity
+RUN cp $GOPATH/bin/gravity /usr/bin/gravity
 
 # ------------------ orchestrator ------------------
 
@@ -44,7 +43,9 @@ RUN rustup target add x86_64-unknown-linux-musl
 RUN apt-get install --no-install-recommends -yq musl-tools
 RUN cargo build --target=x86_64-unknown-linux-musl --release  --all
 # copy binary to bin
-RUN cp $GRAVITY_DIR/orchestrator/target/x86_64-unknown-linux-musl/release/orchestrator /usr/bin/orchestrator
+RUN ls target/x86_64-unknown-linux-musl
+RUN ls target/x86_64-unknown-linux-musl/release
+RUN cp target/x86_64-unknown-linux-musl/release/orchestrator /usr/bin/orchestrator
 
 # ------------------ contract-deployer ------------------
 
@@ -72,8 +73,11 @@ RUN apt-get install --no-install-recommends -yq ethereum
 RUN apt-get install --no-install-recommends -yq jq \
                                                 moreutils
 
-RUN cp -r $GRAVITY_DIR/deploy/single-node-runner/scripts scripts
-RUN cp -r $GRAVITY_DIR/deploy/single-node-runner/assets assets
+COPY deploy/single-node-runner/scripts scripts
+COPY deploy/single-node-runner/assets assets
+
+# RUN cp -r $GRAVITY_DIR/deploy/single-node-runner/scripts scripts
+# RUN cp -r $GRAVITY_DIR/deploy/single-node-runner/assets assets
 
 RUN sh scripts/init.sh
 CMD sh scripts/run.sh
