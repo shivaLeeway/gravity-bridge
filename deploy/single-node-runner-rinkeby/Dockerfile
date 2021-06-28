@@ -72,7 +72,9 @@ RUN apt-get install --no-install-recommends -yq ethereum
 RUN apt-get install --no-install-recommends -yq jq \
                                                 moreutils
 
-RUN cp -r $GRAVITY_DIR/deploy/single-node-runner/scripts scripts
-RUN cp -r $GRAVITY_DIR/deploy/single-node-runner/assets assets
+RUN cp -r $GRAVITY_DIR/deploy/single-node-runner-rinkeby/scripts scripts
+# copy gravity home (config and genesis)
+RUN mkdir testchain
+RUN cp -r $GRAVITY_DIR/deploy/single-node-runner-rinkeby/gravity_home testchain/gravity
 
 CMD sh scripts/rinkeby-geth.sh

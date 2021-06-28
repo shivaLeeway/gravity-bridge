@@ -6,8 +6,12 @@ services:
     restart: on-failure
     container_name: gravity-bridge-single-node-runner-rinkeby
     volumes:
+      # uncomment ot play with run script
       - ./scripts:/root/home/scripts
-      - ./gravity_home :/root/home/testchain/gravity/.
+      # uncomment ot play with the deployer
+      # - ../../solidity/contract-deployer.ts:/go/src/github.com/onomyprotocol/gravity-bridge/solidity/contract-deployer.ts
+      # uncomment to play with gravity config
+      # - ./gravity_home:/root/home/testchain/gravity/.
     ports:
       # gravity
       - 26656:26656
