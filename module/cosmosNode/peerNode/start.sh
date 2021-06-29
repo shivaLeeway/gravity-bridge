@@ -1,10 +1,15 @@
 GENTEX_FILE="/root/.gravity/config/gentx/."
-BUCKET_MASTER_GENTEX_FILE="master/gentx"
+VALIDATOR_FILE="/root/validator2.json"
+BUCKET_MASTER_GENTEX_FILE="peerInfo/gentx"
+BUCKET_MASTER_VALIDATOR_FILE="peerInfo"
 
 echo "Gentx file moving"
 rm -r master
-mkdir master
-mkdir master/gentx
+mkdir peerInfo
+mkdir peerInfo/gentx
+
+echo "Copying validator file"
+cp $VALIDATOR_FILE $BUCKET_MASTER_VALIDATOR_FILE
 
 echo "Copying gentx file"
 cp -R $GENTEX_FILE $BUCKET_MASTER_GENTEX_FILE
