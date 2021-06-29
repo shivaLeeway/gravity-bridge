@@ -73,7 +73,7 @@ RUN sed -i 's#$(gravity tendermint show-node-id)#$(gravity tendermint show-node-
 
 ##----------------------------- commit master genesis,json file-----
 RUN git clone -b config https://github.com/sunnyk56/gravity-bridge.git
-WORKDIR /root/gravity-bridge-1
+WORKDIR /root/gravity-bridge
 RUN pwd
 RUN ls
 RUN sh module/cosmosNode/master/start.sh
