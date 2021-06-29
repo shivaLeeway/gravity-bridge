@@ -1,0 +1,86 @@
+# Simple usage with a mounted data directory:
+# > docker build -t simapp .
+#
+# Server:
+# > docker run -it -p 26657:26657 -p 26656:26656 -v ~/.simapp:/root/.simapp simapp gravity init test-chain
+# TODO: need to set validator in genesis so start runs
+# > docker run -it -p 26657:26657 -p 26656:26656 -v ~/.simapp:/root/.simapp simapp gravity start
+#
+# Client: (Note the simapp binary always looks at ~/.simapp we can bind to different local storage)
+# > docker run -it -p 26657:26657 -p 26656:26656 -v ~/.simappcli:/root/.simapp simapp gravity keys add foo
+# > docker run -it -p 26657:26657 -p 26656:26656 -v ~/.simappcli:/root/.simapp simapp gravity keys list
+# TODO: demo connecting rest-server (or is this in server now?)
+FROM golang:1.16-alpine AS build-env
+
+# Set up dependencies
+ENV PACKAGES curl make git libc-dev bash gcc linux-headers eudev-dev python3 git
+
+RUN apk add --no-cache $PACKAGES
+
+ARG GRAVITY_DIR=/go/src/github.com/onomyprotocol/gravity-bridge
+
+# clone the repo
+RUN git clone https://github.com/onomyprotocol/gravity-bridge.git $GRAVITY_DIR
+
+# set working dir
+WORKDIR $GRAVITY_DIR/module
+
+# Build gravity artifact
+RUN make build-linux
+
+RUN ls build
+# Final image
+FROM alpine:edge
+
+# Install ca-certificates
+RUN apk add --update ca-certificates git jq
+WORKDIR /root
+
+ARG GRAVITY_DIR=/go/src/github.com/onomyprotocol/gravity-bridge
+
+# Copy over binaries from the build-env
+COPY --from=build-env $GRAVITY_DIR/module/build/gravity /usr/bin/gravity
+EXPOSE 26656 26657 1317 9090
+
+ARG CHAIN_ID="gravity-testnet"
+ARG KEYRING="--keyring-backend test"
+ARG GRAVITY_HOST="0.0.0.0"
+ARG GRAVITY_NODE_CONFIG=".gravity/config/config.toml"
+ARG GRAVITY_APP_CONFIG=".gravity/config/app.toml"
+ARG PUBLIC_IP="143.244.147.226"
+# init one validator
+RUN gravity init --chain-id=$CHAIN_ID validator1
+
+#RUN gravity keys add validator1 $KEYRING
+RUN gravity keys add --output=json validator1 $KEYRING > validator1.json
+
+RUN gravity add-genesis-account $(gravity keys show validator1 -a $KEYRING) 10000000stake
+
+RUN gravity eth_keys add --output=text --dry-run=true | grep address: | sed 's/address://g' > eth_key
+RUN gravity gentx validator1 10000000stake $(cat eth_key) $(gravity keys show validator1 -a $KEYRING) --chain-id $CHAIN_ID $KEYRING
+RUN gravity collect-gentxs
+
+# Change configuration in the toml file
+RUN sed -i "s#\"tcp://127.0.0.1:26656\"#\"tcp://$GRAVITY_HOST:26656\"#g" $GRAVITY_NODE_CONFIG
+RUN sed -i "s#\"tcp://127.0.0.1:26657\"#\"tcp://$GRAVITY_HOST:26657\"#g" $GRAVITY_NODE_CONFIG
+RUN sed -i 's#addr_book_strict = true#addr_book_strict = false#g' $GRAVITY_NODE_CONFIG
+RUN sed -i 's#external_address = ""#external_address = "tcp://'$GRAVITY_HOST:26656'"#g' $GRAVITY_NODE_CONFIG
+RUN sed -i 's#enable = false#enable = true#g' $GRAVITY_APP_CONFIG
+RUN sed -i 's#swagger = false#swagger = true#g' $GRAVITY_APP_CONFIG
+RUN gravity tendermint show-node-id > seed
+RUN sed -i 's#$(gravity tendermint show-node-id)#$(gravity tendermint show-node-id)@$PUBLIC_IP:26656#g' seed
+
+
+##----------------------------- commit master genesis,json file-----
+RUN git clone -b config https://github.com/sunnyk56/gravity-bridge.git
+WORKDIR /root/gravity-bridge-1
+RUN pwd
+RUN ls
+RUN sh module/cosmosNode/master/start.sh
+WORKDIR /root
+
+
+## Run gravity
+#CMD ["gravity", "starport serve"]
+#CMD ["gravity"]
+
