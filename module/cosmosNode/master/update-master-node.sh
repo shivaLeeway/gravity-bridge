@@ -10,7 +10,7 @@ GIT_HUB_PASS=$2
 GIT_HUB_EMAIL=$3
 
 echo "Get pull updates"
-RUN git pull origin main
+git pull origin config
 
 echo "extracting validator address"
 validatorKey="$(jq .address $PEER_INFO/validator1.json)"
