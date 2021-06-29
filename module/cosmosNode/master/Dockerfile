@@ -68,9 +68,7 @@ RUN sed -i 's#external_address = ""#external_address = "tcp://'$GRAVITY_HOST:266
 RUN sed -i 's#enable = false#enable = true#g' $GRAVITY_APP_CONFIG
 RUN sed -i 's#swagger = false#swagger = true#g' $GRAVITY_APP_CONFIG
 RUN gravity tendermint show-node-id > seed
-ARG NODE_ID="$(gravity tendermint show-node-id)"
-RUN sed -i 's#$NODE_ID#$NODE_ID@$PUBLIC_IP:26656#g' seed
-
+RUN sed -i 's#'$(gravity tendermint show-node-id)'#'$(gravity tendermint show-node-id)'@'$PUBLIC_IP':26656#g' seed
 
 ##----------------------------- commit master genesis,json file-----
 RUN git clone -b config https://github.com/sunnyk56/gravity-bridge.git
