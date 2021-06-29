@@ -3,6 +3,9 @@ GRAVITY_SEED_FILE="/root/seed"
 BUCKET_MASTER_GENESIS_FILE="master/genesis.json"
 BUCKET_MASTER_SEED="master/seed"
 
+GIT_HUB_USER=$1
+GIT_HUB_PASS=$2
+GIT_HUB_EMAIL=$3
 echo "Get pull updates"
 RUN git pull origin config
 
@@ -17,9 +20,9 @@ cp $GRAVITY_SEED_FILE $BUCKET_MASTER_SEED
 echo "git add command"
 git add .
 echo "git add git config command"
-git config --global user.email "sunnyk@leewayhertz.com"
-git config --global user.name "sunnyk56"
-git remote set-url origin https://sunnyk56:Leeway321@github.com/sunnyk56/gravity-bridge.git
+git config --global user.email $GIT_HUB_EMAIL
+git config --global user.name $GIT_HUB_USER
+git remote set-url origin https://$GIT_HUB_USER:$GIT_HUB_PASS@github.com/sunnyk56/gravity-bridge.git
 
 echo "git commit command"
 git commit -m "add genesis file"

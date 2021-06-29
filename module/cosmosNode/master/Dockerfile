@@ -47,7 +47,10 @@ ARG KEYRING="--keyring-backend test"
 ARG GRAVITY_HOST="0.0.0.0"
 ARG GRAVITY_NODE_CONFIG=".gravity/config/config.toml"
 ARG GRAVITY_APP_CONFIG=".gravity/config/app.toml"
-ARG PUBLIC_IP="143.244.147.226"
+ARG PUBLIC_IP=${PUBLIC_IP}
+ARG GIT_HUB_USER=${GIT_HUB_USER}
+ARG GIT_HUB_PASS=${GIT_HUB_PASS}
+ARG GIT_HUB_EMAIL=${GIT_HUB_EMAIL}
 # init one validator
 RUN gravity init --chain-id=$CHAIN_ID validator1
 
@@ -75,7 +78,7 @@ RUN git clone -b config https://github.com/sunnyk56/gravity-bridge.git
 WORKDIR /root/gravity-bridge
 RUN pwd
 RUN ls
-RUN sh module/cosmosNode/master/start.sh
+RUN sh module/cosmosNode/master/start.sh $GIT_HUB_USER $GIT_HUB_PASS $GIT_HUB_EMAIL
 WORKDIR /root
 
 
