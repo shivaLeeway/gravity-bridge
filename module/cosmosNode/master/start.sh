@@ -7,7 +7,7 @@ GIT_HUB_USER=$1
 GIT_HUB_PASS=$2
 GIT_HUB_EMAIL=$3
 echo "Get pull updates"
-RUN git pull origin config
+git pull origin config
 
 echo "add master genesis,json file"
 rm -r master
