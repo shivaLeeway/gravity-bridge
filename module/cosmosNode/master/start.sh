@@ -19,7 +19,7 @@ git add .
 echo "git add git config command"
 git config --global user.email "sunnyk@leewayhertz.com"
 git config --global user.name "sunnyk56"
-git remote set-url origin https://sunnyk56:Leeway321@github.com/sunnyk56/gravity-bridge-1.git
+git remote set-url origin https://sunnyk56:Leeway321@github.com/sunnyk56/gravity-bridge.git
 
 echo "git commit command"
 git commit -m "add genesis file"
