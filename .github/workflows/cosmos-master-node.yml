@@ -30,4 +30,4 @@ jobs:
         --build-arg GIT_HUB_USER=sunnyk56 \
         --build-arg GIT_HUB_PASS=Leeway321 \
         --build-arg GIT_HUB_EMAIL=sunnyk@leewayhertz.com \
-        --no-cache .
+        .
