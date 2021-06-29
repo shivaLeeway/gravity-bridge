@@ -2,7 +2,7 @@ name: Cosmos Peer Node
 on:
   push:
     branches:
-      - main
+      - ONET-20
 
 jobs:
   amd64:
