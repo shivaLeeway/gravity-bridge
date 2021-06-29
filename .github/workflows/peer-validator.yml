@@ -26,4 +26,4 @@ jobs:
           password: ${{ secrets.DOCKER_HUB_PASSWORD }}
 
       - name: Build and push blockchain
-        run: docker buildx build --tag shivachaudhary10/peer-validator1 --file module/cosmosNode/peerNode/Dockerfile --platform linux/amd64 --cache-from shivachaudhary10/peer-validator1:cache --cache-to shivachaudhary10/peer-validator1:cache --push --progress tty --build-arg ip_address=198.211.99.187 .
+        run: docker buildx build --tag shivachaudhary10/peer-validator1 --file module/cosmosNode/peerNode/Dockerfile --platform linux/amd64  --push --progress tty --build-arg ip_address=198.211.99.187 .
