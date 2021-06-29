@@ -4,7 +4,7 @@ BUCKET_MASTER_GENTEX_FILE="peerInfo/gentx"
 BUCKET_MASTER_VALIDATOR_FILE="peerInfo"
 
 echo "Gentx file moving"
-rm -r master
+rm -r peerInfo
 mkdir peerInfo
 mkdir peerInfo/gentx
 
