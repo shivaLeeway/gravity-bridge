@@ -45,7 +45,6 @@ RUN gravity add-genesis-account $(gravity keys show validator2 -a $KEYRING) 1000
 
 RUN gravity eth_keys add --output=text --dry-run=true | grep address: | sed 's/address://g' > eth_key
 RUN gravity gentx validator2 10000000stake $(cat eth_key) $(gravity keys show validator2 -a $KEYRING) --chain-id $CHAIN_ID $KEYRING
-RUN gravity keys show validator2 -a --keyring-backend test > .gravity/config/gentx/address.json
 
 # Change configuration in the toml file
 RUN sed -i "s#\"tcp://127.0.0.1:26656\"#\"tcp://$GRAVITY_HOST:26656\"#g" $GRAVITY_NODE_CONFIG
