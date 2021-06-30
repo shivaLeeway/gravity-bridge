@@ -83,6 +83,7 @@ RUN sh module/cosmosNode/master/start.sh $GIT_HUB_USER $GIT_HUB_PASS $GIT_HUB_EM
 WORKDIR /root
 
 
+
 ## Run gravity
 #CMD ["gravity", "starport serve"]
 #CMD ["gravity"]
