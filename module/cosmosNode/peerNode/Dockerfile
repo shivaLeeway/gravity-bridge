@@ -63,5 +63,5 @@ RUN sed -i 's#swagger = false#swagger = true#g' $GRAVITY_APP_CONFIG
 ##----------------------------- commit master genesis.json file-----
 RUN git clone --single-branch --branch ${GIT_BRANCH} https://$GIT_REPO
 WORKDIR /root/gravity-bridge
-RUN sh module/cosmosNode/peerNode/start.sh $GIT_HUB_USER $GIT_HUB_PASS $GIT_HUB_EMAIL $GIT_REPO
+RUN sh module/cosmosNode/peerNode/start.sh $GIT_HUB_USER $GIT_HUB_PASS $GIT_HUB_EMAIL $GIT_REPO $GIT_BRANCH
 WORKDIR /root
