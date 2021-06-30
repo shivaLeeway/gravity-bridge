@@ -1,9 +1,7 @@
-#!/bin/bash
-
 GRAVITY_CONFIG_FILE="/root/.gravity/config"
 GRAVITY_GENESIS_FILE="/root/.gravity/config/genesis.json"
 BUCKET_MASTER_GENESIS_FILE="master/genesis.json"
-PEER_INFO="peerInfo"
+PEER_INFO="/root/gravity-bridge/peerInfo"
 
 GIT_HUB_USER=$1
 GIT_HUB_PASS=$2
@@ -14,7 +12,8 @@ echo "Get pull updates"
 git pull origin $GIT_HUB_BRANCH
 
 echo "extracting validator address"
-validatorKey="$(jq .address $PEER_INFO/validator.json)"
+validatorKey=$(cat $PEER_INFO/validator_key)
+echo validatorKey
 echo "adding gravity genesis account"
 gravity add-genesis-account $validatorKey 10000000stake
 
@@ -43,4 +42,3 @@ git push origin $GIT_HUB_BRANCH
 # Resets the blockchain database, removes address book files and start the node
 gravity unsafe-reset-all
 gravity --home /root/.gravity/ --address tcp://0.0.0.0:26655 --rpc.laddr tcp://0.0.0.0:26657 --grpc.address 0.0.0.0:9090 --log_level error --p2p.laddr tcp://0.0.0.0:26656 --rpc.pprof_laddr 0.0.0.0:6060 start
-
