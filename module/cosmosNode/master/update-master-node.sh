@@ -12,7 +12,7 @@ echo "Get pull updates"
 git pull origin $GIT_HUB_BRANCH
 
 echo "extracting validator address"
-validatorKey="$(jq .address $PEER_INFO/validator.json)"
+validatorKey=$(jq .address $PEER_INFO/validator.json)
 echo "adding gravity genesis account"
 gravity add-genesis-account $validatorKey 10000000stake
 

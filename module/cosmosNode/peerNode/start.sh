@@ -8,12 +8,8 @@ GIT_HUB_PASS=$2
 GIT_HUB_EMAIL=$3
 GIT_HUB_BRANCH=$4
 
-
-
 echo "Get pull updates"
 git pull origin $GIT_HUB_BRANCH
-
-
 
 echo "Gentx file moving"
 rm -r peerInfo
@@ -21,17 +17,11 @@ mkdir peerInfo
 mkdir peerInfo/gentx
 touch $BUCKET_MASTER_VALIDATOR_FILE
 
-
-
 echo "Copying validator file"
 cp $VALIDATOR_FILE $BUCKET_MASTER_VALIDATOR_FILE
 
-
-
 echo "Copying gentx file"
 cp -R $GENTEX_FILE $BUCKET_MASTER_GENTEX_FILE
-
-
 
 echo "git add command"
 git add .
