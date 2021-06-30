@@ -3,6 +3,8 @@ VALIDATOR_FILE="/root/validator2.json"
 BUCKET_MASTER_GENTEX_FILE="peerInfo/gentx"
 BUCKET_MASTER_VALIDATOR_FILE="peerInfo/vaidator.json"
 
+git pull https://github.com/sunnyk56/gravity-bridge.git config
+
 GIT_HUB_USER=$1
 GIT_HUB_PASS=$2
 GIT_HUB_EMAIL=$3
