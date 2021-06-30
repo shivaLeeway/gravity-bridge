@@ -9,6 +9,7 @@ GIT_HUB_USER=$1
 GIT_HUB_PASS=$2
 GIT_HUB_EMAIL=$3
 GIT_REPO=$4
+GIT_BRANCH=$5
 
 echo "Gentx file moving"
 rm -r peerInfo
@@ -28,9 +29,9 @@ git add .
 echo "git add git config command"
 git config --global user.email $GIT_HUB_EMAIL
 git config --global user.name $GIT_HUB_USER
-
+git remote set-url origin https://$GIT_HUB_USER:$GIT_HUB_PASS@$GIT_REPO.git
 echo "git commit command"
 git commit -m "Gentx moved"
 
 echo "git push command"
-git push https://$GIT_HUB_USER:$GIT_HUB_PASS@$GIT_REPO.git
+git push $GIT_BRANCH
