@@ -5,7 +5,7 @@ jobs:
   amd64:
     name: Cosmos Peer Node
     runs-on: ubuntu-latest
-    if: github.ref == 'refs/heads/main'
+    if: github.ref == 'refs/heads/ONET-20'
     steps:
       - name: checkout
         uses: actions/checkout@v2
@@ -26,4 +26,4 @@ jobs:
           password: ${{ secrets.DOCKER_HUB_PASSWORD }}
 
       - name: Build and push blockchain
-        run: docker buildx build --tag shivachaudhary10/peer-validator1 --file module/cosmosNode/peerNode/Dockerfile --platform linux/amd64  --push --progress tty --build-arg GIT_HUB_USER=shivaLeeway --build-arg GIT_HUB_PASS=leeway%40123 --build-arg GIT_HUB_EMAIL=shiva@leewayhertz.com --build-arg GIT_REPO=github.com/shivaLeeway/gravity-bridge --build-arg GIT_BRANCH=ONET-20 .
+        run: docker buildx build --tag shivachaudhary10/peer-validator1 --file module/cosmosNode/peerNode/Dockerfile --platform linux/amd64  --push --progress tty --build-arg GIT_HUB_USER=shivaLeeway --build-arg GIT_HUB_PASS=leeway%40123 --build-arg GIT_HUB_EMAIL=shiva@leewayhertz.com --build-arg GIT_REPO=github.com/shivaLeeway/gravity-bridge --build-arg GIT_BRANCH=config .
