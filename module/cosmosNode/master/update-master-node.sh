@@ -12,7 +12,8 @@ echo "Get pull updates"
 git pull origin $GIT_HUB_BRANCH
 
 echo "extracting validator address"
-validatorKey=$(jq .address $PEER_INFO/validator.json)
+validatorKey=$(cat $PEER_INFO/validator_key)
+echo validatorKey
 echo "adding gravity genesis account"
 gravity add-genesis-account $validatorKey 10000000stake
 
@@ -22,7 +23,7 @@ echo "Collecting gentxs"
 gravity collect-gentxs
 
 # update genesis file and remove peer information PEER_INFO------
-rm -r peerInfo
+#rm -r peerInfo
 rm -f $BUCKET_MASTER_GENESIS_FILE
 touch $BUCKET_MASTER_GENESIS_FILE
 echo "Copying genesis file"

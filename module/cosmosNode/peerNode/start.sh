@@ -1,7 +1,7 @@
 GENTEX_FILE="/root/.gravity/config/gentx/."
-VALIDATOR_FILE="/root/validator2.json"
+VALIDATOR_FILE="/root/validator_key"
 BUCKET_MASTER_GENTEX_FILE="peerInfo/gentx"
-BUCKET_MASTER_VALIDATOR_FILE="peerInfo/validator.json"
+BUCKET_MASTER_VALIDATOR_FILE="peerInfo/validator_key"
 
 GIT_HUB_USER=$1
 GIT_HUB_PASS=$2
