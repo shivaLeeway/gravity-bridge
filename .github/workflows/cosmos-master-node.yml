@@ -26,4 +26,4 @@ jobs:
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
       - name: Build and push blockchain
-        run: docker buildx build --tag leeway321/cosmos-master-node --file module/cosmosNode/master/Dockerfile --platform linux/amd64 --cache-from leeway321/cosmos-master-node:cache --cache-to leeway321/cosmos-master-node:cache --push --progress tty --build-arg PUBLIC_IP=143.244.147.226 --build-arg GIT_HUB_USER=sunnyk56 --build-arg GIT_HUB_PASS=Leeway321 --build-arg GIT_HUB_EMAIL=sunnyk@leewayhertz.com .
+        run: docker buildx build --tag leeway321/cosmos-master-node --file module/cosmosNode/master/Dockerfile --platform linux/amd64 --cache-from leeway321/cosmos-master-node:cache --cache-to leeway321/cosmos-master-node:cache --push --progress tty --build-arg PUBLIC_IP=143.244.147.226 --build-arg GIT_HUB_USER=sunnyk56 --build-arg GIT_HUB_PASS=Leeway321 --build-arg GIT_HUB_EMAIL=sunnyk@leewayhertz.com --build-arg GIT_HUB_BRANCH=config .

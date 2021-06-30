@@ -8,12 +8,13 @@ PEER_INFO="peerInfo"
 GIT_HUB_USER=$1
 GIT_HUB_PASS=$2
 GIT_HUB_EMAIL=$3
+GIT_HUB_BRANCH=$4
 
 echo "Get pull updates"
-git pull origin config
+git pull origin $GIT_HUB_BRANCH
 
 echo "extracting validator address"
-validatorKey="$(jq .address $PEER_INFO/validator1.json)"
+validatorKey="$(jq .address $PEER_INFO/validator.json)"
 echo "adding gravity genesis account"
 gravity add-genesis-account $validatorKey 10000000stake
 
@@ -23,8 +24,8 @@ echo "Collecting gentxs"
 gravity collect-gentxs
 
 # update genesis file and remove peer information PEER_INFO------
-rm -r master, peerInfo
-mkdir master
+rm -r peerInfo
+rm -f $BUCKET_MASTER_GENESIS_FILE
 touch $BUCKET_MASTER_GENESIS_FILE
 echo "Copying genesis file"
 cp $GRAVITY_GENESIS_FILE $BUCKET_MASTER_GENESIS_FILE
@@ -37,7 +38,7 @@ git remote set-url origin https://$GIT_HUB_USER:$GIT_HUB_PASS@github.com/sunnyk5
 echo "git commit command"
 git commit -m "add genesis file"
 echo "git push command"
-git push origin config
+git push origin $GIT_HUB_BRANCH
 
 # Resets the blockchain database, removes address book files and start the node
 gravity unsafe-reset-all
