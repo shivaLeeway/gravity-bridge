@@ -6,8 +6,10 @@ BUCKET_MASTER_SEED="master/seed"
 GIT_HUB_USER=$1
 GIT_HUB_PASS=$2
 GIT_HUB_EMAIL=$3
+GIT_HUB_BRANCH=$4
+
 echo "Get pull updates"
-git pull origin config
+git pull origin $GIT_HUB_BRANCH
 
 echo "add master genesis,json file"
 rm -r master
@@ -30,4 +32,4 @@ git commit -m "add genesis file"
 echo "git fetch command"
 git fetch
 echo "git push command"
-git push origin config
+git push origin $GIT_HUB_BRANCH

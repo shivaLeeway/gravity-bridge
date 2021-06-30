@@ -51,6 +51,7 @@ ARG PUBLIC_IP=${PUBLIC_IP}
 ARG GIT_HUB_USER=${GIT_HUB_USER}
 ARG GIT_HUB_PASS=${GIT_HUB_PASS}
 ARG GIT_HUB_EMAIL=${GIT_HUB_EMAIL}
+ARG GIT_HUB_BRANCH=${GIT_HUB_BRANCH}
 # init one validator
 RUN gravity init --chain-id=$CHAIN_ID validator1
 
@@ -74,14 +75,15 @@ RUN gravity tendermint show-node-id > seed
 RUN sed -i 's#'$(gravity tendermint show-node-id)'#'$(gravity tendermint show-node-id)'@'$PUBLIC_IP':26656#g' seed
 
 ##----------------------------- commit master genesis,json file-----
-RUN git clone -b config https://github.com/sunnyk56/gravity-bridge.git
+RUN git clone -b $GIT_HUB_BRANCH https://github.com/sunnyk56/gravity-bridge.git
 WORKDIR /root/gravity-bridge
 RUN pwd
 RUN ls
-RUN sh module/cosmosNode/master/start.sh $GIT_HUB_USER $GIT_HUB_PASS $GIT_HUB_EMAIL
+RUN sh module/cosmosNode/master/start.sh $GIT_HUB_USER $GIT_HUB_PASS $GIT_HUB_EMAIL $GIT_HUB_BRANCH
 WORKDIR /root
 
 
 ## Run gravity
 #CMD ["gravity", "starport serve"]
 #CMD ["gravity"]
+
