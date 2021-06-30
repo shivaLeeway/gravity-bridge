@@ -61,7 +61,7 @@ RUN gravity keys add --output=json validator1 $KEYRING > validator1.json
 RUN gravity add-genesis-account $(gravity keys show validator1 -a $KEYRING) 10000000stake
 
 RUN gravity eth_keys add --output=text --dry-run=true | grep address: | sed 's/address://g' > eth_key
-RUN gravity gentx validator1 10000000stake $(cat eth_key) $(gravity keys show validator1 -a $KEYRING) --chain-id $CHAIN_ID $KEYRING
+RUN gravity gentx --ip $PUBLIC_IP validator1 10000000stake $(cat eth_key) $(gravity keys show validator1 -a $KEYRING) --chain-id $CHAIN_ID $KEYRING
 RUN gravity collect-gentxs
 
 # Change configuration in the toml file
