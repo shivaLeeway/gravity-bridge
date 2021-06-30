@@ -1,7 +1,7 @@
 GENTEX_FILE="/root/.gravity/config/gentx/."
 VALIDATOR_FILE="/root/validator2.json"
 BUCKET_MASTER_GENTEX_FILE="peerInfo/gentx"
-BUCKET_MASTER_VALIDATOR_FILE="peerInfo/vaidator.json"
+BUCKET_MASTER_VALIDATOR_FILE="peerInfo/validator.json"
 
 git pull https://github.com/sunnyk56/gravity-bridge.git config
 
