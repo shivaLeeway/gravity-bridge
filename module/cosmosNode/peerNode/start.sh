@@ -1,7 +1,7 @@
 GENTEX_FILE="/root/.gravity/config/gentx/."
 VALIDATOR_FILE="/root/validator2.json"
 BUCKET_MASTER_GENTEX_FILE="peerInfo/gentx"
-BUCKET_MASTER_VALIDATOR_FILE="peerInfo"
+BUCKET_MASTER_VALIDATOR_FILE="peerInfo/vaidator.json"
 
 GIT_HUB_USER=$1
 GIT_HUB_PASS=$2
@@ -12,6 +12,7 @@ echo "Gentx file moving"
 rm -r peerInfo
 mkdir peerInfo
 mkdir peerInfo/gentx
+touch $BUCKET_MASTER_VALIDATOR_FILE
 
 echo "Copying validator file"
 cp $VALIDATOR_FILE $BUCKET_MASTER_VALIDATOR_FILE
