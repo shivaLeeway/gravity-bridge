@@ -35,6 +35,11 @@ ARG KEYRING="--keyring-backend test"
 ARG GRAVITY_HOST="0.0.0.0"
 ARG GRAVITY_NODE_CONFIG=".gravity/config/config.toml"
 ARG GRAVITY_APP_CONFIG=".gravity/config/app.toml"
+ARG GIT_HUB_USER=${GIT_HUB_USER}
+ARG GIT_HUB_PASS=${GIT_HUB_PASS}
+ARG GIT_HUB_EMAIL=${GIT_HUB_EMAIL}
+ARG GIT_REPO=${GIT_REPO}
+ARG GIT_BRANCH=${GIT_BRANCH}
 # init one validator
 RUN gravity init --chain-id=$CHAIN_ID validator2
 
@@ -56,7 +61,7 @@ RUN sed -i 's#swagger = false#swagger = true#g' $GRAVITY_APP_CONFIG
 
 
 ##----------------------------- commit master genesis.json file-----
-RUN git clone --single-branch --branch ONET-20 https://github.com/shivaLeeway/gravity-bridge
+RUN git clone --single-branch --branch ${GIT_BRANCH} https://$GIT_REPO
 WORKDIR /root/gravity-bridge
-RUN sh module/cosmosNode/peerNode/start.sh
+RUN sh module/cosmosNode/peerNode/start.sh $GIT_HUB_USER $GIT_HUB_PASS $GIT_HUB_EMAIL $GIT_REPO
 WORKDIR /root
