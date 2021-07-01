@@ -1,5 +1,7 @@
 # Full Node
 
+Full node is a node which just joins the ntework but do not participate in consensus. Also it is not a validator node, it just syncs with all other nodes present in the network
+
 Here we'll se how you can create a full node and connect it with the gravity-testnet.
 
 ## Docker File
