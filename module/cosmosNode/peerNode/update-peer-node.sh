@@ -18,6 +18,6 @@ sed -i 's#persistent_peers = ""#persistent_peers = "'$peerseed'"#g' $GRAVITY_CON
 rm -r $MAIN_NODE
 
 # Resets the blockchain database, removes address book files and start the node
-# gravity unsafe-reset-all
+gravity unsafe-reset-all
 gravity --home /root/.gravity/ --address tcp://0.0.0.0:26655 --rpc.laddr tcp://0.0.0.0:26657 --grpc.address 0.0.0.0:9090 --log_level error --p2p.laddr tcp://0.0.0.0:26656 --rpc.pprof_laddr 0.0.0.0:6060 start
 
