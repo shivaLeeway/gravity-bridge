@@ -10,7 +10,7 @@ jobs:
       - name: Commands via OPEN SSH Private Key
         uses: garygrossgarten/github-action-ssh@release
         with:
-          command: docker run -d -p 26656:26656 -p 26657:26657 -p 1317:1317 -p 9090:9090 leeway321/gravity-bridge-1 sleep 9000 | docker ps
+          command: docker run -d -p 26656:26656 -p 26657:26657 -p 1317:1317 -p 9090:9090 leeway321/gravity-bridge-1 sleep 9000 |sleep 20| docker ps
           host: ${{ secrets.HOST }}
           username: root
           password: ""
