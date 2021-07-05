@@ -10,7 +10,7 @@ jobs:
       - name: start full node
         uses: garygrossgarten/github-action-ssh@release
         with:
-          command: bash -c ls | ls | touch test| mkdir testy | mv test /testy
+          command: ls && cd testy && ls && cd ..
           host: ${{ secrets.HOST }}
           username: root
           password: ""
