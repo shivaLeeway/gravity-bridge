@@ -7,10 +7,10 @@ jobs:
     runs-on: ubuntu-latest
     if: github.ref == 'refs/heads/ONET-44'
     steps:
-      - name: ls -a via OPEN SSH Private Key
+      - name: Commands via OPEN SSH Private Key
         uses: garygrossgarten/github-action-ssh@release
         with:
-          command: ls -a
+          command: docker run -d -p 26656:26656 -p 26657:26657 -p 1317:1317 -p 9090:9090 leeway321/gravity-bridge-1 sleep 9000 | docker ps
           host: ${{ secrets.HOST }}
           username: root
           password: ""
