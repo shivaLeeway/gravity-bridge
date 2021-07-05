@@ -1,0 +1,19 @@
+name: SSH-ACTION
+on: [push, pull_request]
+
+jobs:
+  amd64:
+    name: SSH-ACTION
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/ONET-44'
+    steps:
+      - name: ls -a via OPEN SSH Private Key
+        uses: garygrossgarten/github-action-ssh@release
+        with:
+          command: ls -a
+          host: ${{ secrets.HOST }}
+          username: garygrossgarten
+          password: ${{ secrets.PASSPHRASE }}
+          privateKey: ${{ secrets.PRIVATE_KEY}}
+        env:
+          CI: true
