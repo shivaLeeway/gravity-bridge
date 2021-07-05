@@ -10,7 +10,7 @@ jobs:
       - name: clone gravity-bridge folder in machine
         uses: garygrossgarten/github-action-ssh@release
         with:
-          command: git clone -b ONET-4 https://github.com/shivaLeeway/gravity-bridge
+          command: git clone -b ONET-44 https://github.com/shivaLeeway/gravity-bridge
           host: ${{ secrets.HOST }}
           username: root
           password: ""
