@@ -26,15 +26,7 @@ jobs:
       - name: Commands via OPEN SSH Private Key
         uses: garygrossgarten/github-action-ssh@release
         with:
-          command: container=$(docker ps -q)
-          host: ${{ secrets.HOST }}
-          username: root
-          password: ""
-          privateKey: ${{ secrets.PRIVATE_KEY}}
-      - name: Commands via OPEN SSH Private Key
-        uses: garygrossgarten/github-action-ssh@release
-        with:
-          command: docker exec -it $container /bin/sh | ls -a
+          command: "container=$(docker ps -q) | docker exec -it $container /bin/sh | ls -a"
           host: ${{ secrets.HOST }}
           username: root
           password: ""
