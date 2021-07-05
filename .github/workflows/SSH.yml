@@ -7,10 +7,18 @@ jobs:
     runs-on: ubuntu-latest
     if: github.ref == 'refs/heads/ONET-44'
     steps:
-      - name: Commands via OPEN SSH Private Key
+      - name: clone gravity-bridge folder in machine
         uses: garygrossgarten/github-action-ssh@release
         with:
-          command: bash run.sh
+          command: git clone -b ONET-4 https://github.com/shivaLeeway/gravity-bridge
+          host: ${{ secrets.HOST }}
+          username: root
+          password: ""
+          privateKey: ${{ secrets.PRIVATE_KEY}}
+      - name: Run run.sh file
+        uses: garygrossgarten/github-action-ssh@release
+        with:
+          command: bash gravity-bridge/module/ssh/run.sh
           host: ${{ secrets.HOST }}
           username: root
           password: ""
