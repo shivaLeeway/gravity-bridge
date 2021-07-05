@@ -8,4 +8,4 @@ echo "get the container ID"
 container=$(docker ps -q)
 
 echo "get inside the container"
-docker exec -t $container sh module/cosmosNode/fullNode/start.sh
+docker exec -t $container sh module/cosmosNode/fullNode/start.sh 2>&1 >/dev/null
